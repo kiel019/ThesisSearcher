@@ -8,7 +8,7 @@ def search_thesis(request):
     theses = Thesis.objects.all()
 
     if query:
-        theses = theses.filter(title__icontains=query)
+        theses = theses.filter(Q(title__icontains=query) | Q(keywords__word__icontains=query))
 
     paginator = Paginator(theses, 2)
     page_number = request.GET.get('page')
@@ -26,3 +26,6 @@ def add_comment(request, thesis_id):
         comment.save()
 
     return render(request, 'thesis_detail.html', {'thesis': thesis})
+
+def landing_page(request):
+    return render(request, 'landing.html')

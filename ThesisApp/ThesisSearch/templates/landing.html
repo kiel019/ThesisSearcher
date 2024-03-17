@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to the Thesis Search App</title>
+</head>
+<body>
+    <h1>Welcome to the Thesis Search App</h1>
+    <p>This is an app to search for current Theses and add comments</p>
+    <h3>Thesis Search</h3>
+    <form method="GET" action="{% url 'search_thesis' %}">
+        <input type="text" name="q" placeholder="Search...">
+        <button type="submit">Search</button>
+    </form>
+</body>
+</html>
