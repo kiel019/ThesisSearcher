@@ -1,15 +1,20 @@
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from .models import Thesis, Comment
+from django.core.paginator import Paginator
 
 def search_thesis(request):
     query = request.GET.get('q')
+    theses = Thesis.objects.all()
+
     if query:
-        # Search by title or keywords
-        theses = Thesis.objects.filter(Q(title__icontains=query) | Q(keywords__word__icontains=query))
-    else:
-        theses = Thesis.objects.all()
-    return render(request, 'search.html', {'theses': theses})
+        theses = theses.filter(title__icontains=query)
+
+    paginator = Paginator(theses, 2)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'search.html', {'page_obj': page_obj})
 
 def add_comment(request, thesis_id):
     thesis = get_object_or_404(Thesis, id=thesis_id)

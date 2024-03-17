@@ -9,19 +9,25 @@
         <input type="text" name="q" placeholder="Search...">
         <button type="submit">Search</button>
     </form>
-    {% if theses %}
-        <ul>
-            {% for thesis in theses %}
-                <li>{{ thesis.title }} - {{ thesis.author }} <br>
-                {{thesis.abstract}} <br>
-                {{thesis.year_published}} <br>
-                <a href="{% url 'add_comment' thesis.id %}">Comments</a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No theses found.</p>
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
     {% endif %}
-
+    <span>{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+    {% endif %}
+    <ul>
+        {% for thesis in page_obj %}
+            <li>
+                Title: {{ thesis.title }} <br>
+                Author: {{ thesis.author }} <br>
+                Year: {{ thesis.year_published }} <br>
+                Abstract: <br>{{ thesis.abstract }} <br>
+                <a href="{% url 'add_comment' thesis.id %}">Comments</a>
+            </li>
+        {% empty %}
+            <li>No theses found.</li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
