@@ -11,7 +11,9 @@
     </form>
     <ul>
         {% for thesis in theses %}
-            <li>{{ thesis.title }} - {{ thesis.author }}</li>
+            <li>{{ thesis.title }} - {{ thesis.author }} <br>
+            {{thesis.abstract}} <br>
+            {{thesis.year_published}}</li>
         {% empty %}
             <li>No theses found.</li>
         {% endfor %}
