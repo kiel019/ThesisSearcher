@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Thesis Detail</title>
+</head>
+<body>
+    <h1>Title: {{ thesis.title }}</h1>
+    <h2>Author: {{ thesis.author }}</h2>
+    <h2>Year: {{ thesis.year_published }}</h2>
+    <p>Abstract: <br>{{ thesis.abstract }}</p>
+    <!-- Display existing comments -->
+    <h2>Comments</h2>
+    <ul>
+        {% for comment in thesis.comments.all %}
+            <li>{{ comment.author }} - {{ comment.content }}</li>
+        {% empty %}
+            <li>No comments yet.</li>
+        {% endfor %}
+    </ul>
+    <!-- Comment form -->
+    <h2>Add a Comment</h2>
+    <form method="post" action="{% url 'add_comment' thesis.id %}">
+        {% csrf_token %}
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author" required><br>
+        <label for="content">Content:</label>
+        <textarea id="content" name="content" required></textarea><br>
+        <button type="submit">Submit</button>
+    </form>
+    <a href="{% url 'search_thesis' %}">Go back to search</a>
+</body>
+</html>

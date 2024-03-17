@@ -16,3 +16,13 @@ class Keyword(models.Model):
 
     def __str__(self):
         return self.word
+    
+class Comment(models.Model):
+    thesis = models.ForeignKey(Thesis, on_delete=models.CASCADE, related_name='comments')
+    author = models.CharField(max_length=100)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Comment by {self.author} on {self.thesis.title}"
+    
